@@ -1,4 +1,5 @@
 @import 'color';
+@import "~bootstrap/scss/bootstrap.scss";
 
 $input-padding: 8px;
 $input-width: 300px;
@@ -532,4 +533,9 @@ div[class^="wp-block-block-lab-"] {
   ul, ol {
     margin-left: 1rem;
   }
+}
+
+
+.block-lab-control .editor {
+  position: relative;
 }
