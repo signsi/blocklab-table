@@ -1,3 +1,41 @@
-#adminmenu ul > li > a[href="edit.php?post_type=block_lab&page=block-lab-pro"] {
+#adminmenu ul>li>a[href="edit.php?post_type=block_lab&page=block-lab-pro"] {
 	color: #00b9eb;
+}
+
+.pure-table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	border: 1px solid #cbcbcb;
+	line-height: normal;
+}
+
+.pure-table thead {
+	background-color: #e0e0e0;
+	color: #000;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.pure-table td, .pure-table th {
+	border-left: 1px solid #cbcbcb;
+	border-width: 0 0 0 1px;
+	font-size: inherit;
+	margin: 0;
+	overflow: visible;
+	padding: .5em 1em;
+	line-height: normal;
+	padding: 0.5em 1em;
+}
+
+#block_fields .block-fields-list .pure-table td {
+	line-height: normal;
+}
+
+.pure-table-bordered td {
+	border-bottom: 1px solid #cbcbcb;
+}
+
+.pure-table td {
+	background-color: transparent;
 }

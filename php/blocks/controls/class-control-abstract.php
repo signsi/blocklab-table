@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Control abstract.
  *
@@ -14,7 +15,8 @@ use Block_Lab\Blocks\Field;
 /**
  * Class Control_Abstract
  */
-abstract class Control_Abstract {
+abstract class Control_Abstract
+{
 
 	/**
 	 * Control name.
@@ -68,7 +70,8 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->create_settings_config();
 		$this->register_settings();
 	}
@@ -81,39 +84,40 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function create_settings_config() {
+	public function create_settings_config()
+	{
 		$this->settings_config = [
 			'location'    => [
 				'name'     => 'location',
-				'label'    => __( 'Field Location', 'block-lab' ),
+				'label'    => __('Field Location', 'block-lab'),
 				'type'     => 'location',
 				'default'  => 'editor',
-				'sanitize' => [ $this, 'sanitize_location' ],
+				'sanitize' => [$this, 'sanitize_location'],
 			],
 			'width'       => [
 				'name'     => 'width',
-				'label'    => __( 'Field Width', 'block-lab' ),
+				'label'    => __('Field Width', 'block-lab'),
 				'type'     => 'width',
 				'default'  => '100',
 				'sanitize' => 'sanitize_text_field',
 			],
 			'help'        => [
 				'name'     => 'help',
-				'label'    => __( 'Help Text', 'block-lab' ),
+				'label'    => __('Help Text', 'block-lab'),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
 			],
 			'default'     => [
 				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
+				'label'    => __('Default Value', 'block-lab'),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
 			],
 			'placeholder' => [
 				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
+				'label'    => __('Placeholder Text', 'block-lab'),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
@@ -121,8 +125,8 @@ abstract class Control_Abstract {
 		];
 
 		$this->locations = [
-			'editor'    => __( 'Editor', 'block-lab' ),
-			'inspector' => __( 'Inspector', 'block-lab' ),
+			'editor'    => __('Editor', 'block-lab'),
+			'inspector' => __('Inspector', 'block-lab'),
 		];
 	}
 
@@ -141,20 +145,21 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings( $field, $uid ) {
-		foreach ( $this->settings as $setting ) {
+	public function render_settings($field, $uid)
+	{
+		foreach ($this->settings as $setting) {
 			// Don't render the location setting for sub-fields.
-			if ( 'location' === $setting->type && isset( $field->settings['parent'] ) ) {
+			if ('location' === $setting->type && isset($field->settings['parent'])) {
 				continue;
 			}
 
 			// Don't render the field width setting for sub-fields.
-			if ( 'width' === $setting->type && isset( $field->settings['parent'] ) ) {
+			if ('width' === $setting->type && isset($field->settings['parent'])) {
 				continue;
 			}
 
-			if ( isset( $field->settings[ $setting->name ] ) ) {
-				$setting->value = $field->settings[ $setting->name ];
+			if (isset($field->settings[$setting->name])) {
+				$setting->value = $field->settings[$setting->name];
 			} else {
 				$setting->value = $setting->default;
 			}
@@ -168,30 +173,78 @@ abstract class Control_Abstract {
 			];
 			$name    = 'block-fields-settings[' . $uid . '][' . $setting->name . ']';
 			$id      = 'block-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
-			?>
-			<tr class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+?>
+			<tr class="<?php echo esc_attr(implode(' ', $classes)); ?>">
 				<td class="spacer"></td>
 				<th scope="row">
-					<label for="<?php echo esc_attr( $id ); ?>">
-						<?php echo esc_html( $setting->label ); ?>
+					<label for="<?php echo esc_attr($id); ?>">
+						<?php echo esc_html($setting->label); ?>
 					</label>
 					<p class="description">
-						<?php echo wp_kses_post( $setting->help ); ?>
+						<?php echo wp_kses_post($setting->help); ?>
 					</p>
 				</th>
 				<td>
 					<?php
 					$method = 'render_settings_' . $setting->type;
-					if ( method_exists( $this, $method ) ) {
-						$this->$method( $setting, $name, $id );
+					if (method_exists($this, $method)) {
+						$this->$method($setting, $name, $id);
 					} else {
-						$this->render_settings_text( $setting, $name, $id );
+						$this->render_settings_text($setting, $name, $id);
 					}
 					?>
 				</td>
 			</tr>
-			<?php
+		<?php
 		}
+	}
+
+	/**
+	 * Render table settings
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_table($setting, $name, $id)
+	{
+		?>
+		<table id="editable" class="pure-table pure-table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Make</th>
+					<th>Model</th>
+					<th>Year</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>Honda</td>
+					<td>Accord</td>
+					<td>2009</td>
+				</tr>
+
+				<tr>
+					<td>2</td>
+					<td>Toyota</td>
+					<td>Camry</td>
+					<td>2012</td>
+				</tr>
+
+				<tr>
+					<td>3</td>
+					<td>Hyundai</td>
+					<td>Elantra</td>
+					<td>2010</td>
+				</tr>
+			</tbody>
+		</table>
+	<?php
 	}
 
 	/**
@@ -203,15 +256,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_text( $setting, $name, $id ) {
-		?>
-		<input
-			name="<?php echo esc_attr( $name ); ?>"
-			type="<?php echo esc_attr( $setting->type ); ?>"
-			id="<?php echo esc_attr( $id ); ?>"
-			class="regular-text"
-			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
-		<?php
+	public function render_settings_text($setting, $name, $id)
+	{
+	?>
+		<input name="<?php echo esc_attr($name); ?>" type="<?php echo esc_attr($setting->type); ?>" id="<?php echo esc_attr($id); ?>" class="regular-text" value="<?php echo esc_attr($setting->get_value()); ?>" />
+	<?php
 	}
 
 	/**
@@ -223,14 +272,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_textarea( $setting, $name, $id ) {
-		?>
-		<textarea
-			name="<?php echo esc_attr( $name ); ?>"
-			id="<?php echo esc_attr( $id ); ?>"
-			rows="6"
-			class="large-text"><?php echo esc_html( $setting->get_value() ); ?></textarea>
-		<?php
+	public function render_settings_textarea($setting, $name, $id)
+	{
+	?>
+		<textarea name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($id); ?>" rows="6" class="large-text"><?php echo esc_html($setting->get_value()); ?></textarea>
+	<?php
 	}
 
 	/**
@@ -242,16 +288,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_checkbox( $setting, $name, $id ) {
-		?>
-		<input
-			name="<?php echo esc_attr( $name ); ?>"
-			type="checkbox"
-			id="<?php echo esc_attr( $id ); ?>"
-			class=""
-			value="1"
-			<?php checked( '1', $setting->get_value() ); ?> />
-		<?php
+	public function render_settings_checkbox($setting, $name, $id)
+	{
+	?>
+		<input name="<?php echo esc_attr($name); ?>" type="checkbox" id="<?php echo esc_attr($id); ?>" class="" value="1" <?php checked('1', $setting->get_value()); ?> />
+	<?php
 	}
 
 	/**
@@ -263,8 +304,9 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_number( $setting, $name, $id ) {
-		$this->render_number( $setting, $name, $id );
+	public function render_settings_number($setting, $name, $id)
+	{
+		$this->render_number($setting, $name, $id);
 	}
 
 	/**
@@ -277,8 +319,9 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_number_non_negative( $setting, $name, $id ) {
-		$this->render_number( $setting, $name, $id, true );
+	public function render_settings_number_non_negative($setting, $name, $id)
+	{
+		$this->render_number($setting, $name, $id, true);
 	}
 
 	/**
@@ -291,16 +334,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_number( $setting, $name, $id, $non_negative = false ) {
-		?>
-		<input
-			name="<?php echo esc_attr( $name ); ?>"
-			type="number"
-			id="<?php echo esc_attr( $id ); ?>"
-			class="regular-text"
-			<?php echo $non_negative ? 'min="0"' : ''; ?>
-			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
-		<?php
+	public function render_number($setting, $name, $id, $non_negative = false)
+	{
+	?>
+		<input name="<?php echo esc_attr($name); ?>" type="number" id="<?php echo esc_attr($id); ?>" class="regular-text" <?php echo $non_negative ? 'min="0"' : ''; ?> value="<?php echo esc_attr($setting->get_value()); ?>" />
+	<?php
 	}
 
 	/**
@@ -312,28 +350,29 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_textarea_array( $setting, $name, $id ) {
+	public function render_settings_textarea_array($setting, $name, $id)
+	{
 		$options = $setting->get_value();
-		if ( is_array( $options ) ) {
+		if (is_array($options)) {
 			// Convert the array to text separated by new lines.
 			$value = '';
-			foreach ( $options as $option ) {
-				if ( ! is_array( $option ) ) {
+			foreach ($options as $option) {
+				if (!is_array($option)) {
 					$value .= $option . "\n";
 					continue;
 				}
-				if ( ! isset( $option['value'] ) || ! isset( $option['label'] ) ) {
+				if (!isset($option['value']) || !isset($option['label'])) {
 					continue;
 				}
-				if ( $option['value'] === $option['label'] ) {
+				if ($option['value'] === $option['label']) {
 					$value .= $option['label'] . "\n";
 				} else {
 					$value .= $option['value'] . ' : ' . $option['label'] . "\n";
 				}
 			}
-			$setting->value = trim( $value );
+			$setting->value = trim($value);
 		}
-		$this->render_settings_textarea( $setting, $name, $id );
+		$this->render_settings_textarea($setting, $name, $id);
 	}
 
 	/**
@@ -345,8 +384,9 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_location( $setting, $name, $id ) {
-		$this->render_select( $setting, $name, $id, $this->locations );
+	public function render_settings_location($setting, $name, $id)
+	{
+		$this->render_select($setting, $name, $id, $this->locations);
 	}
 
 	/**
@@ -358,31 +398,26 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_width( $setting, $name, $id ) {
+	public function render_settings_width($setting, $name, $id)
+	{
 		$widths = [
 			'25'  => '25%',
 			'50'  => '50%',
 			'75'  => '75%',
 			'100' => '100%',
 		];
-		?>
+	?>
 		<div class="button-group">
-		<?php
-		foreach ( $widths as $value => $label ) {
-			?>
-			<input
-				class="button"
-				name="<?php echo esc_attr( $name ); ?>"
-				type="radio"
-				value="<?php echo esc_attr( $value ); ?>"
-				<?php checked( $value, $setting->get_value() ); ?>
-				/>
-			<label><?php echo esc_html( $label ); ?></label>
 			<?php
-		}
-		?>
+			foreach ($widths as $value => $label) {
+			?>
+				<input class="button" name="<?php echo esc_attr($name); ?>" type="radio" value="<?php echo esc_attr($value); ?>" <?php checked($value, $setting->get_value()); ?> />
+				<label><?php echo esc_html($label); ?></label>
+			<?php
+			}
+			?>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
@@ -400,18 +435,19 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_select( $setting, $name, $id, $values ) {
-		?>
-		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
+	public function render_select($setting, $name, $id, $values)
+	{
+	?>
+		<select name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($id); ?>">
 			<?php
-			foreach ( $values as $value => $label ) :
-				?>
-				<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, $setting->get_value() ); ?>>
-					<?php echo esc_html( $label ); ?>
+			foreach ($values as $value => $label) :
+			?>
+				<option value="<?php echo esc_attr($value); ?>" <?php selected($value, $setting->get_value()); ?>>
+					<?php echo esc_html($label); ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
-		<?php
+<?php
 	}
 
 	/**
@@ -421,8 +457,9 @@ abstract class Control_Abstract {
 	 *
 	 * @return string
 	 */
-	public function sanitize_checkbox( $value ) {
-		if ( '1' === $value ) {
+	public function sanitize_checkbox($value)
+	{
+		if ('1' === $value) {
 			return 1;
 		}
 		return 0;
@@ -435,11 +472,12 @@ abstract class Control_Abstract {
 	 *
 	 * @return int
 	 */
-	public function sanitize_number( $value ) {
-		if ( empty( $value ) || '0' === $value ) {
+	public function sanitize_number($value)
+	{
+		if (empty($value) || '0' === $value) {
 			return null;
 		}
-		return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+		return (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
 	}
 
 	/**
@@ -449,28 +487,29 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitize_textarea_assoc_array( $value ) {
-		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+	public function sanitize_textarea_assoc_array($value)
+	{
+		$rows    = preg_split('/\r\n|[\r\n]/', $value);
 		$options = [];
 
-		foreach ( $rows as $key => $option ) {
-			if ( '' === $option ) {
+		foreach ($rows as $key => $option) {
+			if ('' === $option) {
 				continue;
 			}
 
-			$key_value = explode( ' : ', $option );
+			$key_value = explode(' : ', $option);
 
-			if ( count( $key_value ) > 1 ) {
-				$options[ $key ]['label'] = $key_value[1];
-				$options[ $key ]['value'] = $key_value[0];
+			if (count($key_value) > 1) {
+				$options[$key]['label'] = $key_value[1];
+				$options[$key]['value'] = $key_value[0];
 			} else {
-				$options[ $key ]['label'] = $option;
-				$options[ $key ]['value'] = $option;
+				$options[$key]['label'] = $option;
+				$options[$key]['value'] = $option;
 			}
 		}
 
 		// Reindex array in case of blank lines.
-		$options = array_values( $options );
+		$options = array_values($options);
 
 		return $options;
 	}
@@ -482,18 +521,19 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitize_textarea_array( $value ) {
-		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+	public function sanitize_textarea_array($value)
+	{
+		$rows    = preg_split('/\r\n|[\r\n]/', $value);
 		$options = [];
 
-		foreach ( $rows as $key => $option ) {
-			if ( '' === $option ) {
+		foreach ($rows as $key => $option) {
+			if ('' === $option) {
 				continue;
 			}
 
-			$key_value = explode( ' : ', $option );
+			$key_value = explode(' : ', $option);
 
-			if ( count( $key_value ) > 1 ) {
+			if (count($key_value) > 1) {
 				$options[] = $key_value[0];
 			} else {
 				$options[] = $option;
@@ -501,7 +541,7 @@ abstract class Control_Abstract {
 		}
 
 		// Reindex array in case of blank lines.
-		$options = array_values( $options );
+		$options = array_values($options);
 
 		return $options;
 	}
@@ -513,8 +553,9 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitize_location( $value ) {
-		if ( is_string( $value ) && array_key_exists( $value, $this->locations ) ) {
+	public function sanitize_location($value)
+	{
+		if (is_string($value) && array_key_exists($value, $this->locations)) {
 			return $value;
 		}
 	}
@@ -528,13 +569,14 @@ abstract class Control_Abstract {
 	 *
 	 * @return mixed
 	 */
-	public function validate_options( $value, $settings ) {
-		if ( ! array_key_exists( 'options', $settings ) ) {
+	public function validate_options($value, $settings)
+	{
+		if (!array_key_exists('options', $settings)) {
 			return $value;
 		}
 
 		// Allow an empty value.
-		if ( '' === $value ) {
+		if ('' === $value) {
 			return $value;
 		}
 
@@ -543,21 +585,21 @@ abstract class Control_Abstract {
 		// Reindex the options into a more workable format.
 		array_walk(
 			$settings['options'],
-			function( $option ) use ( &$options ) {
+			function ($option) use (&$options) {
 				$options[] = $option['value'];
 			}
 		);
 
-		if ( is_array( $value ) ) {
+		if (is_array($value)) {
 			// Filter out invalid options where multiple options can be chosen.
-			foreach ( $value as $key => $option ) {
-				if ( ! in_array( $option, $options, true ) ) {
-					unset( $value[ $key ] );
+			foreach ($value as $key => $option) {
+				if (!in_array($option, $options, true)) {
+					unset($value[$key]);
 				}
 			}
 		} else {
 			// If the value is not in the set of options, return an empty string.
-			if ( ! in_array( $value, $options, true ) ) {
+			if (!in_array($value, $options, true)) {
 				$value = '';
 			}
 		}

@@ -169,49 +169,7 @@ class RepeaterRows extends Component {
 			<>
 				<div className="block-lab-repeater__rows" ref={ this.repeaterRows }>
 					{
-						rows.map( ( row, rowIndex ) => {
-							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
-
-							return (
-								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `bl-row-${ rowIndex }` }>
-									<div className="block-lab-repeater--row-delete">
-										<IconButton
-											icon="no"
-											key={ `${ rowIndex }-menu` }
-											className="button-delete"
-											label={ __( 'Delete', 'block-lab' ) }
-											onClick={ this.removeRow( rowIndex ) }
-											disabled={ !! field.min && rows.length <= field.min }
-											isSmall
-										/>
-									</div>
-									<Fields
-										fields={ subFields }
-										parentBlockProps={ parentBlockProps }
-										parentBlock={ parentBlock }
-										rowIndex={ rowIndex }
-									/>
-									<div className="block-lab-repeater--row-actions">
-										<IconButton
-											icon="arrow-up-alt2"
-											key={ `${ rowIndex }-move-up` }
-											className="button-move-up"
-											label={ __( 'Move up', 'block-lab' ) }
-											onClick={ this.move( rowIndex, rowIndex - 1 ) }
-											isSmall
-										/>
-										<IconButton
-											icon="arrow-down-alt2"
-											key={ `${ rowIndex }-move-down` }
-											className="button-move-down"
-											label={ __( 'Move down', 'block-lab' ) }
-											onClick={ this.move( rowIndex, rowIndex + 1 ) }
-											isSmall
-										/>
-									</div>
-								</BaseControl>
-							);
-						} )
+						
 					}
 				</div>
 			</>

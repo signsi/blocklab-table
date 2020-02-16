@@ -20,6 +20,7 @@ import BlockLabRepeaterControl from './repeater';
 import BlockLabTaxonomyControl from './taxonomy';
 import BlockLabToggleControl from './toggle';
 import BlockLabUserControl from './user';
+import TableControl from './table';
 
 export default {
 	text: BlockLabTextControl,
@@ -41,4 +42,5 @@ export default {
 	taxonomy: BlockLabTaxonomyControl,
 	toggle: BlockLabToggleControl,
 	user: BlockLabUserControl,
+	table: TableControl
 };
