@@ -21,7 +21,8 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
-    "react-data-grid": "^7.0.0-alpha.24"
+    "react-data-grid": "^7.0.0-alpha.24",
+    "react-vis": "^1.11.7"
   },
   "devDependencies": {
     "@wordpress/babel-preset-default": "4.8.0",

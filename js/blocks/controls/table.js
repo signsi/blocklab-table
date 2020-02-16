@@ -6,6 +6,7 @@ import { BaseControl, IconButton } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import React from "react";
 import TableEditor from '../components/TableEditor';
+import BasicPlot from '../components/BasicPlot';
 /**
  * Internal dependencies
  */
@@ -83,8 +84,15 @@ const TableControl = (props) => {
 	}
 
 	return (
-		<div className={"editor"}>
-			<TableEditor rows={rowsData} columns={columns} onGridRowsUpdated={onGridRowsUpdated} />
+		<div className={"root"}>
+			<div className={"editor"}>
+				<TableEditor rows={rowsData} columns={columns} onGridRowsUpdated={onGridRowsUpdated} />
+			</div>
+			<div className={"plots"}>
+				<BasicPlot row={rows[0]} columns={columns} />
+				<BasicPlot row={rows[1]} columns={columns} />
+				<BasicPlot row={rows[2]} columns={columns} />
+			</div>
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDataGrid from "react-data-grid";
 
 function TableEditor(props) {
