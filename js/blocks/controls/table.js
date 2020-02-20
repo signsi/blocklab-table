@@ -61,21 +61,28 @@ const getUpdatedRows = (rows, newIndex) => {
 	return updatedRows
 }
 
+const getNewData = (rows, cols) => {
+	const data = {
+		"rows": rows,
+		"cols": cols
+	}
+
+	const jsonData = JSON.stringify(data)
+	return jsonData
+}
+
 
 const TableControl = (props) => {
-	const { field, instanceId, onChange, parentBlock, parentBlockProps } = props;
-	const { attributes, setAttributes } = parentBlockProps;
-	const attr = { ...attributes };
-	const value = attr[field.name];
-	const defaultRows = new Array(field.min ? field.min : 1).fill({ '': '' });
-	const hasRows = value && value.hasOwnProperty('rows');
-	//const rows = hasRows ? value.rows : defaultRows;
+	console.log("props", props)
+	const { field, getValue, instanceId, onChange, parentBlockProps, rowIndex } = props;
+	console.log(getValue)
+	const initialValue = getValue(props);
+	console.log("initial", initialValue)
 
 	const [rows, setRows] = useState(rowsData)
 	const [cols, setCols] = useState(colData)
 
 	const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-		console.log(fromRow, toRow, updated)
 		const newRows = rows.slice();
 		for (let i = fromRow; i <= toRow; i++) {
 			newRows[i] = { ...newRows[i], ...updated };
@@ -93,24 +100,8 @@ const TableControl = (props) => {
 		setCols(updatedCols)
 		const updatedRows = getUpdatedRows(rows, newIndex)
 		setRows(updatedRows)
-	}
-
-	/**
-	 * Adds a new empty row, using { '': '' }.
-	 *
-	 * Simply using {} results in <ServerSideRender> not sending an empty row,
-	 * and the empty row isn't rendered in the editor.
-	 *
-	 * @see https://github.com/getblocklab/block-lab/issues/393
-	 */
-	const addEmptyRow = () => {
-		const withAddedRow = rows.concat({ '': '' });
-		attr[field.name] = { rows: withAddedRow };
-		setAttributes(attr);
-	};
-
-	if (!hasRows) {
-		onChange({ rows: defaultRows });
+		const newData = getNewData(updatedRows, updatedCols)
+		onChange(newData)
 	}
 
 	const style = {
@@ -119,6 +110,7 @@ const TableControl = (props) => {
 
 	return (
 		<div className={"root"}>
+			<input type="hidden" value={jsonData} />
 			<div className={"editor"} style={style}>
 				<TableEditor rows={rows} columns={cols} onGridRowsUpdated={onGridRowsUpdated} newRow={() => console.log()} newCol={() => addNewCol()} />
 			</div>

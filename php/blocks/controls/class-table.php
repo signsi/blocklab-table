@@ -51,9 +51,9 @@ class Table extends Control_Abstract
     {
         $this->settings[] = new Control_Setting(
             [
-                'name'     => 'min',
-                'label'    => __('Minimum Rows', 'block-lab'),
-                'type'     => 'table',
+                'name'     => 'data',
+                'label'    => __('Data (hidden)', 'block-lab'),
+                'type'     => 'text',
             ]
         );
     }

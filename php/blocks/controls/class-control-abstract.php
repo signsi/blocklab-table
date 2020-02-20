@@ -211,6 +211,8 @@ abstract class Control_Abstract
 	public function render_settings_table($setting, $name, $id)
 	{
 		?>
+		<!--
+			TODO: currently no settings
 		<table id="editable" class="pure-table pure-table-bordered">
 			<thead>
 				<tr>
@@ -244,6 +246,7 @@ abstract class Control_Abstract
 				</tr>
 			</tbody>
 		</table>
+	-->
 	<?php
 	}
 
