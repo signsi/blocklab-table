@@ -21,7 +21,9 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
-    "react-data-grid": "^7.0.0-alpha.24",
+    "immutable": "^4.0.0-rc.12",
+    "react-bootstrap": "0.32.4",
+    "react-data-grid": "5.0.1",
     "react-vis": "^1.11.7"
   },
   "devDependencies": {

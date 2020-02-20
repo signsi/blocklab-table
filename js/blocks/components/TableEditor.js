@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
+import ReactDOM from "react-dom";
 
 function TableEditor(props) {
 

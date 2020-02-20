@@ -112,6 +112,22 @@ class Admin extends Component_Abstract
 			$this->plugin->get_version()
 		);
 		*/
+
+		
+		wp_enqueue_style(
+			'block-lab-bootstrap-theme',
+			$this->plugin->get_url('css/theme.css'),
+			[],
+			$this->plugin->get_version()
+		);
+
+		wp_enqueue_style(
+			'block-lab-bootstrap',
+			$this->plugin->get_url('css/bootstrap.css'),
+			[],
+			$this->plugin->get_version()
+		);
+		
 	}
 
 	/**
