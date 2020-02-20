@@ -104,7 +104,7 @@ class Admin extends Component_Abstract
 		);
 
 		// https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
-/*
+		/*
 		wp_enqueue_style(
 			'block-lab-bootstrap',
 			$this->plugin->get_url('css/bootstrap.min.css'),
@@ -113,7 +113,9 @@ class Admin extends Component_Abstract
 		);
 		*/
 
-		
+		// TODO: can this safely be dropped?
+
+
 		wp_enqueue_style(
 			'block-lab-bootstrap-theme',
 			$this->plugin->get_url('css/theme.css'),
@@ -127,7 +129,6 @@ class Admin extends Component_Abstract
 			[],
 			$this->plugin->get_version()
 		);
-		
 	}
 
 	/**

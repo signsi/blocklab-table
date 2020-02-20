@@ -1,0 +1,23 @@
+.editor {
+
+    font-size: 1.5rem;
+
+
+    .react-grid-Main,
+    .react-grid-Canvas,
+    .react-grid-Grid,
+    .react-grid-Header,
+    .react-grid-HeaderCell,
+    .react-grid-Cell {
+        background: none;
+    }
+
+    .react-grid-Main {
+        outline: 1px solid #333;
+    }
+
+    .react-grid-Grid,
+    .react-grid-Cell {
+        border: 1px solid #333;
+    }
+}

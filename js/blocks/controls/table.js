@@ -83,9 +83,13 @@ const TableControl = (props) => {
 		onChange({ rows: defaultRows });
 	}
 
+	const style = {
+		margin: "10px"
+	}
+
 	return (
 		<div className={"root"}>
-			<div className={"editor"}>
+			<div className={"editor"} style={style}>
 				<TableEditor rows={rowsData} columns={columns} onGridRowsUpdated={onGridRowsUpdated} />
 			</div>
 			<div className={"plots"}>
