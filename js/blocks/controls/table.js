@@ -13,7 +13,7 @@ import BasicPlot from '../components/BasicPlot';
 import { RepeaterRows } from '../components';
 
 const colData = [
-	{ key: "bezeichnung", name: "Bezeichnung", editable: true },
+	{ key: "bezeichnung", name: "Bezeichnung", editable: false },
 	{ key: 2016, name: 2016, editable: true },
 	{ key: 2017, name: 2017, editable: true },
 	{ key: 2018, name: 2018, editable: true },
@@ -68,16 +68,14 @@ const getNewData = (rows, cols) => {
 	}
 
 	const jsonData = JSON.stringify(data)
-	return jsonData
+	return "test"
 }
 
 
 const TableControl = (props) => {
-	console.log("props", props)
 	const { field, getValue, instanceId, onChange, parentBlockProps, rowIndex } = props;
-	console.log(getValue)
+	console.log(props)
 	const initialValue = getValue(props);
-	console.log("initial", initialValue)
 
 	const [rows, setRows] = useState(rowsData)
 	const [cols, setCols] = useState(colData)
@@ -88,6 +86,8 @@ const TableControl = (props) => {
 			newRows[i] = { ...newRows[i], ...updated };
 		}
 		setRows(newRows)
+		const newData = getNewData(newRows, cols)
+		onChange(newData)
 	}
 
 	const addNewCol = () => {
@@ -110,7 +110,6 @@ const TableControl = (props) => {
 
 	return (
 		<div className={"root"}>
-			<input type="hidden" value={jsonData} />
 			<div className={"editor"} style={style}>
 				<TableEditor rows={rows} columns={cols} onGridRowsUpdated={onGridRowsUpdated} newRow={() => console.log()} newCol={() => addNewCol()} />
 			</div>

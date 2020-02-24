@@ -940,6 +940,7 @@ class Block_Post extends Component_Abstract
 	 */
 	public function save_block($data)
 	{
+
 		if (!isset($_POST['post_ID'])) {
 			return $data;
 		}
@@ -1162,7 +1163,6 @@ class Block_Post extends Component_Abstract
 				}
 			}
 		}
-
 		$data['post_content'] = wp_slash($block->to_json());
 		return $data;
 	}
